@@ -8,6 +8,10 @@ use App\Http\Requests\UpdateHoraRequest;
 
 class HoraController extends Controller
 {
+    public function getHoras(){
+        $horas=Hora::all();
+        return $horas;
+    }
     /**
      * Display a listing of the resource.
      *

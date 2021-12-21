@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; 
+use App\Http\Controllers\HoraController;
 
 use App\Models\Reserva;
 use App\Http\Requests\StoreReservaRequest;
@@ -25,7 +26,9 @@ class ReservaController extends Controller
      */
     public function create()
     {
-        return view('reserva.create');
+        $objHoras = new HoraController();
+        $horas = $objHoras->getHoras();
+        return view('reserva.create',["horas"=>$horas]);
     }
 
     /**
