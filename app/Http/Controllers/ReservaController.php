@@ -25,7 +25,7 @@ class ReservaController extends Controller
      */
     public function create()
     {
-        //
+        return view('reserva.create');
     }
 
     /**
@@ -36,7 +36,7 @@ class ReservaController extends Controller
      */
     public function store(StoreReservaRequest $request)
     {
-        //
+        return $request->all();
     }
 
     /**
