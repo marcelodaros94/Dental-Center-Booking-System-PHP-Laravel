@@ -25,7 +25,7 @@ class ReservaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {        
         $objHoras = new HoraController();
         $horas = $objHoras->getHoras();
         return view('reserva.create',["horas"=>$horas]);
@@ -39,6 +39,10 @@ class ReservaController extends Controller
      */
     public function store(StoreReservaRequest $request)
     {
+        $request->validate([
+            "fecha"=>"required",
+            "hora"=>"required"
+        ]);
         return $request->all();
     }
 
