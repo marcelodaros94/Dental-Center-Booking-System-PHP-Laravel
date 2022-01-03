@@ -15,5 +15,5 @@ use App\Http\Controllers\ReservaController;
 |
 */
 
-Route::get('/', [ReservaController::class, 'create'])->name('reserva.create');
-Route::post('/', [ReservaController::class, 'store'])->name('reserva.store');
+Route::get('/reservas', [ReservaController::class, 'create'])->name('reserva.create');
+Route::post('/reservas', [ReservaController::class, 'store'])->name('reserva.store');
