@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('reservas', [BookingsController::class, 'create'])
+    ->name('bookings.create');
+Route::post('reservas', [BookingsController::class, 'store'])
+        ->name('bookings.store');
+/*
+Route::get('/reservas', function () {
+  return view('bookings.create', []);
+})->name('bookings.create');
+*/
