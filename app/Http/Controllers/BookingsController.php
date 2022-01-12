@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Booking;
 
 class BookingsController extends Controller
 {
@@ -34,7 +35,16 @@ class BookingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date' => 'required|min:10|max:10'
+        ]);
+        dd($request->date);
+        //$booking=new Booking;
+        //$booking->date=$request->date;
+        //$booking->hour_id=$hour;
+        //$booking->user_id=$user;
+        //$booking->save();
+        //return redirect()->back();
     }
 
     /**

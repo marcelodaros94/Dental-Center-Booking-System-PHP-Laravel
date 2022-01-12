@@ -12,6 +12,9 @@
     <div>
         <input type="date" name="date">
     </div>
+    @error('date')
+        <div>{{ $message }}</div>
+    @enderror
     <div>
         <input type="submit" value="Enviar">
     </div>
