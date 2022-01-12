@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Http\Requests\StoreBooking;
 
 class BookingsController extends Controller
 {
@@ -33,14 +34,12 @@ class BookingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBooking $request)
     {
-        $request->validate([
-            'date' => 'required|min:10|max:10'
-        ]);
-        dd($request->date);
+        $validated=$request->validated();
+        dd($validated['date']);
         //$booking=new Booking;
-        //$booking->date=$request->date;
+        //$booking->date=$validated['date'];
         //$booking->hour_id=$hour;
         //$booking->user_id=$user;
         //$booking->save();
