@@ -43,6 +43,7 @@ class BookingsController extends Controller
         //$booking->hour_id=$hour;
         //$booking->user_id=$user;
         //$booking->save();
+        //$request->session()->flash('status', 'La reserva fue creada con éxito');
         //return redirect()->back();
     }
 
