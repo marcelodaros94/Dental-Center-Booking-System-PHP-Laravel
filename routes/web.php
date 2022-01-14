@@ -23,3 +23,4 @@ Route::get('/reservas', function () {
   return view('bookings.create', []);
 })->name('bookings.create');
 */
+Auth::routes();
