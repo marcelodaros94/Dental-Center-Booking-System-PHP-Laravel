@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\Hour;
 use App\Http\Requests\StoreBooking;
 
 class BookingsController extends Controller
@@ -25,7 +26,7 @@ class BookingsController extends Controller
      */
     public function create()
     {
-        return view('bookings.create', []);
+        return view('bookings.create', ['hours'=>Hour::all()]);
     }
 
     /**
@@ -37,14 +38,13 @@ class BookingsController extends Controller
     public function store(StoreBooking $request)
     {
         $validated=$request->validated();
-        dd($validated['date']);
-        //$booking=new Booking;
-        //$booking->date=$validated['date'];
-        //$booking->hour_id=$hour;
-        //$booking->user_id=$user;
-        //$booking->save();
-        //$request->session()->flash('status', 'La reserva fue creada con éxito');
-        //return redirect()->back();
+        $booking=new Booking;
+        $booking->date=$validated['date'];
+        $booking->user_id=$request->user()->id;
+        $booking->hour_id=$validated['hour'];
+        $booking->save();
+        $request->session()->flash('status', 'La reserva fue creada con éxito');
+        return redirect()->back();
     }
 
     /**

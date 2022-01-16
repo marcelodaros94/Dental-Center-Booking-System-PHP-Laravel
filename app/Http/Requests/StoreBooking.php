@@ -24,7 +24,8 @@ class StoreBooking extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required|min:10|max:10'
+            'date' => 'required|min:10|max:10',
+            'hour' => 'required'
         ];
     }
 }
