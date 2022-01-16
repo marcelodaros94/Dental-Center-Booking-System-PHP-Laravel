@@ -7,6 +7,9 @@ use App\Models\Booking;
 use App\Models\Hour;
 use App\Http\Requests\StoreBooking;
 
+use Illuminate\Support\Facades\Cache;
+
+
 class BookingsController extends Controller
 {
     /**
@@ -26,7 +29,46 @@ class BookingsController extends Controller
      */
     public function create()
     {
-        return view('bookings.create', ['hours'=>Hour::all()]);
+        
+        $sessionId = session()->getId();
+        $counterKey = "booking-counter";
+        $usersKey = "booking-users";
+
+        $users = Cache::get($usersKey, []);
+        $usersUpdate = [];
+        $difference = 0;
+        $now = now();
+
+        foreach ($users as $session => $lastVisit) {
+            if ($now->diffInMinutes($lastVisit) >= 1) {
+                $difference--;
+            } else {
+                $usersUpdate[$session] = $lastVisit;
+            }
+        }
+
+        if(
+            !array_key_exists($sessionId, $users)
+            || $now->diffInMinutes($users[$sessionId]) >= 1
+        ) {
+            $difference++;
+        }
+
+        $usersUpdate[$sessionId] = $now;
+        Cache::forever($usersKey, $usersUpdate);
+
+        if (!Cache::has($counterKey)) {
+            Cache::forever($counterKey, 1);
+        } else {
+            Cache::increment($counterKey, $difference);
+        }
+
+        $counter = Cache::get($counterKey);
+
+        return view('bookings.create', [
+            'hours'=>Hour::all(),
+            'counter'=>$counter
+        ]);
     }
 
     /**
@@ -40,8 +82,8 @@ class BookingsController extends Controller
         $validated=$request->validated();
         $booking=new Booking;
         $booking->date=$validated['date'];
-        $booking->user_id=$request->user()->id;
         $booking->hour_id=$validated['hour'];
+        $booking->user_id=$request->user()->id;
         $booking->save();
         $request->session()->flash('status', 'La reserva fue creada con éxito');
         return redirect()->back();
