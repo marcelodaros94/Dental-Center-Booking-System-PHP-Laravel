@@ -34,7 +34,7 @@ class BookingsController extends Controller
      */
     public function create()
     {   
-        $counter = new Counter();
+        $counter = resolve(Counter::class);
 
         return view('bookings.create', [
             'hours'=>Hour::all(),
