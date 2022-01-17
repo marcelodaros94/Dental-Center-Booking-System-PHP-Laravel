@@ -8,6 +8,7 @@ use App\Models\Hour;
 use App\Http\Requests\StoreBooking;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
 
 class BookingsController extends Controller
@@ -19,7 +20,11 @@ class BookingsController extends Controller
      */
     public function index()
     {
-        //
+        $currentuser = Auth::user();
+        return view('bookings.index', [
+            'bookings'=>Booking::where('user_id',$currentuser->id)->get()/*,
+            'counter'=>$counter*/
+        ]);
     }
 
     /**

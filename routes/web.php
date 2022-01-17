@@ -14,13 +14,11 @@ use App\Http\Controllers\BookingsController;
 |
 */
 
-Route::get('reservas', [BookingsController::class, 'create'])
+Route::get('reservas', [BookingsController::class, 'index'])
+    ->name('bookings.index');
+Route::get('reservas/crear', [BookingsController::class, 'create'])
     ->name('bookings.create');
 Route::post('reservas', [BookingsController::class, 'store'])
         ->name('bookings.store');
-/*
-Route::get('/reservas', function () {
-  return view('bookings.create', []);
-})->name('bookings.create');
-*/
+
 Auth::routes();
