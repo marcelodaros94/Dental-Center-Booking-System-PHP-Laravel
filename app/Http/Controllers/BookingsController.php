@@ -20,10 +20,13 @@ class BookingsController extends Controller
      */
     public function index()
     {
+        
+        $counter = resolve(Counter::class);
         $currentuser = Auth::user();
+
         return view('bookings.index', [
-            'bookings'=>Booking::where('user_id',$currentuser->id)->get()/*,
-            'counter'=>$counter*/
+            'bookings'=>Booking::where('user_id',$currentuser->id)->get(),
+            'counter'=>$counter->increment("navigating")
         ]);
     }
 
