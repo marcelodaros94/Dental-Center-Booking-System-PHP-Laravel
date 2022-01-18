@@ -26,7 +26,7 @@ class BookingsController extends Controller
 
         return view('bookings.index', [
             'bookings'=>Booking::where('user_id',$currentuser->id)->get(),
-            'counter'=>$counter->increment("navigating")
+            'counter'=>$counter->increment("general")
         ]);
     }
 
@@ -38,6 +38,7 @@ class BookingsController extends Controller
     public function create()
     {   
         $counter = resolve(Counter::class);
+        $contador_general=$counter->increment("general");
 
         return view('bookings.create', [
             'hours'=>Hour::all(),
