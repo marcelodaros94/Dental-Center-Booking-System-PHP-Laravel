@@ -13,6 +13,10 @@ use App\Services\Counter;
 
 class BookingsController extends Controller
 {
+    private $counter;
+    public function __construct(Counter $counter){
+        $this->counter=$counter;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,13 +24,11 @@ class BookingsController extends Controller
      */
     public function index()
     {
-        
-        $counter = resolve(Counter::class);
         $currentuser = Auth::user();
 
         return view('bookings.index', [
             'bookings'=>Booking::where('user_id',$currentuser->id)->get(),
-            'counter'=>$counter->increment("general")
+            'counter'=>$this->counter->increment("general")
         ]);
     }
 
@@ -37,12 +39,11 @@ class BookingsController extends Controller
      */
     public function create()
     {   
-        $counter = resolve(Counter::class);
-        $contador_general=$counter->increment("general");
+        $general_counter=$this->counter->increment("general");
 
         return view('bookings.create', [
             'hours'=>Hour::all(),
-            'counter' => $counter->increment("booking")
+            'counter' => $this->counter->increment("booking")
         ]);
     }
 
