@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Counter;
 
+use Illuminate\Support\Facades\DB;
+
 class BookingsController extends Controller
 {
     private $counter;
@@ -42,7 +44,7 @@ class BookingsController extends Controller
     public function create()
     {   
         $general_counter=$this->counter->increment("general");
-
+        
         return view('bookings.create', [
             'hours'=>Hour::all(),
             'counter' => $this->counter->increment("booking")

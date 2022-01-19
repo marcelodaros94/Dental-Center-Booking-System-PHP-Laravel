@@ -30,4 +30,28 @@
         <input type="submit" value="Enviar">
     </div>
 </form>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        $("[name=date]").change(function(){
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('hours/available') }}",
+                data: {
+                    _token: '{{csrf_token()}}',
+                    date: this.value
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $("[name=hour_id]").html("");
+                    for (x of data) {
+                        $("[name=hour_id]").append('<option value="'+x.id+'">'+x.range+'</option>');
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>
 @endsection 

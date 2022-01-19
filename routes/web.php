@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingsController;
+use App\Http\Controllers\HoursController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,7 @@ Route::get('reservas/crear', [BookingsController::class, 'create'])
     ->name('bookings.create');
 Route::post('reservas', [BookingsController::class, 'store'])
         ->name('bookings.store');
+Route::post('hours/available', [HoursController::class, 'available'])
+        ->name('hours.available');
 
 Auth::routes();
