@@ -2,22 +2,27 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
+//use Illuminate\Support\Facades\Cache; -> Previous one
+use Illuminate\Contracts\Cache\Factory as Cache;// equivalent interface of the facade
+use Illuminate\Contracts\Session\Session;// equivalent interface of the facade
 
 class Counter
 {
     private $timeout;
-    public function __construct(int $timeout)
+    public function __construct(Cache $cache, Session $session, int $timeout)
     {
+        $this->cache = $cache;
+        $this->session = $session;
         $this->timeout = $timeout;
     }
     public function increment(string $key): int
     {
-        $sessionId = session()->getId();
+        $cache=$this->cache;
+        $sessionId = $this->session->getId();
         $counterKey = "{$key}-counter";
         $usersKey = "{$key}-users";
 
-        $users = Cache::get($usersKey, []);
+        $users = $cache->get($usersKey, []);
         $usersUpdate = [];
         $diffrence = 0;
         $now = now();
@@ -38,15 +43,15 @@ class Counter
         }
 
         $usersUpdate[$sessionId] = $now;
-        Cache::forever($usersKey, $usersUpdate);
+        $cache->forever($usersKey, $usersUpdate);
 
-        if (!Cache::has($counterKey)) {
-            Cache::forever($counterKey, 1);
+        if (!$cache->has($counterKey)) {
+            $cache->forever($counterKey, 1);
         } else {
-            Cache::increment($counterKey, $diffrence);
+            $cache->increment($counterKey, $diffrence);
         }
 
-        $counter = Cache::get($counterKey);
+        $counter = $cache->get($counterKey);
 
         return $counter;
     }

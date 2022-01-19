@@ -14,6 +14,7 @@ use App\Services\Counter;
 class BookingsController extends Controller
 {
     private $counter;
+    
     public function __construct(Counter $counter){
         $this->counter=$counter;
     }
