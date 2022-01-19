@@ -8,18 +8,24 @@
 <form action="{{ route('bookings.store') }}" method="POST">
     @csrf
     <div>
-        <select name="hour">            
+        <input type="date" name="date">
+    </div>
+    <div>
+        <select name="hour_id">            
             @foreach ($hours as $hour)
                 <option value="{{ $hour->id }}">{{ $hour->range }}</option>
             @endforeach
         </select>
     </div>
-    <div>
-        <input type="date" name="date">
-    </div>
-    @error('date')
-        <div>{{ $message }}</div>
-    @enderror
+    @if($errors->any())
+        <div>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div>
         <input type="submit" value="Enviar">
     </div>

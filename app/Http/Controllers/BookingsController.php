@@ -60,7 +60,7 @@ class BookingsController extends Controller
         $validated=$request->validated();
         $booking=new Booking;
         $booking->date=$validated['date'];
-        $booking->hour_id=$validated['hour'];
+        $booking->hour_id=$validated['hour_id'];
         $booking->user_id=$request->user()->id;
         $booking->save();
         $request->session()->flash('status', 'La reserva fue creada con éxito');

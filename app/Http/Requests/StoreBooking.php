@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Booking;
+//use Illuminate\Validation\Rule;
 
 class StoreBooking extends FormRequest
 {
@@ -25,7 +27,18 @@ class StoreBooking extends FormRequest
     {
         return [
             'date' => 'required|min:10|max:10',
-            'hour' => 'required'
+            'hour_id' => ['required',function ($attribute, $value, $fail) {                      
+                $booking=Booking::where(function ($query){
+                        $query->where('date',$this->date);
+                        $query->where('hour_id',$this->hour_id );
+                    })->exists();  
+                if($booking){
+                    $fail('Otro usuario ya reservó esta hora. Intente con otra.');
+                }
+            }]
+            //Rule::unique('bookings')->where(function ($query) {
+               //return $query->where('date',$this->date);
+            //})]
         ];
     }
 }
