@@ -14,8 +14,9 @@ use App\Services\Counter;
 class BookingsController extends Controller
 {
     private $counter;
-    
-    public function __construct(Counter $counter){
+
+    public function __construct(Counter $counter){        
+        $this->middleware('auth');
         $this->counter=$counter;
     }
     /**
