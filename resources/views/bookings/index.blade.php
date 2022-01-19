@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <p>{{ $counter }} consultando ahora mismo</p>
+  <p>{{ $counter }} conectados ahora mismo</p>
   <h1>Mis Reservas</h1>      
   @foreach ($bookings as $booking)
       <li>
