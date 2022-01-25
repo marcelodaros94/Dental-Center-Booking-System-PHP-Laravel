@@ -7,7 +7,7 @@
   <h1>Mis Reservas</h1>      
   @foreach ($bookings as $booking)
       <li>
-        {{ $booking->date }}
+        {{ $booking->date }} {{ $booking->hour->range }}
       </li>
   @endforeach
 @endsection 
