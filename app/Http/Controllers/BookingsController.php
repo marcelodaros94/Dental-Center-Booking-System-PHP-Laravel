@@ -66,7 +66,7 @@ class BookingsController extends Controller
         $booking->user_id=$request->user()->id;
         $booking->save();
         $request->session()->flash('status', 'La reserva fue creada con éxito');
-        return redirect()->back();
+        return redirect()->route('bookings.index');
     }
 
     /**
