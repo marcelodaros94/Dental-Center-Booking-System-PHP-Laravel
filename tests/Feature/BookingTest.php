@@ -24,7 +24,7 @@ class BookingTest extends TestCase
             'user_id' => 1
         ];
         $response = $this->json('POST', 'reservas', $params);
-        $response->assertStatus(401);
+        $response->assertUnauthorized();
 
         //checking redirect and session variables
         
@@ -37,5 +37,21 @@ class BookingTest extends TestCase
         $this->assertDatabaseHas('bookings', [
             'hour_id' => 1
         ]);*/
+    }
+    public function testStoreBookingWithLogin()
+    {
+        $user = \App\Models\User::factory(User::class)->make()->first();
+
+        $params = [
+            'date' => '2022-01-24',
+            'hour_id' => 1,
+            'user_id' => 1
+        ];
+
+        $this->actingAs($user)->json('POST', 'reservas', $params)
+        ->assertSessionHas('status')
+        ->assertStatus(302);
+
+        $this->assertEquals(session('status'), 'La reserva fue creada con éxito');
     }
 }
