@@ -31,7 +31,7 @@ class BookingsController extends Controller
         $currentuser = Auth::user();
 
         return view('bookings.index', [
-            'bookings'=>Booking::where('user_id',$currentuser->id)->get(),
+            'bookings'=>Booking::where('user_id',$currentuser->id)->with('hour')->get(),
             'counter'=>$this->counter->increment("general")
         ]);
     }
