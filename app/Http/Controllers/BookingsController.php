@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Hour;
 use App\Http\Requests\StoreBooking;
-
+use App\Mail\BookingStored;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Counter;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class BookingsController extends Controller
 {
@@ -59,12 +60,18 @@ class BookingsController extends Controller
      */
     public function store(StoreBooking $request)
     {
+        $user=$request->user();
         $validated=$request->validated();
         $booking=new Booking;
         $booking->date=$validated['date'];
         $booking->hour_id=$validated['hour_id'];
-        $booking->user_id=$request->user()->id;
+        $booking->user_id=$user->id;
         $booking->save();
+        
+        Mail::to(env('ADMIN_EMAIL'))->send(
+            new BookingStored($booking)
+        );
+
         $request->session()->flash('status', 'La reserva fue creada con éxito');
         return redirect()->route('bookings.index');
     }

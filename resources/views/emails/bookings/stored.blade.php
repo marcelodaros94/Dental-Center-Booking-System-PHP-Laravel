@@ -1,0 +1,1 @@
+<p>Una nueva reserva hecha por {{ $booking->user->name }}</p>
